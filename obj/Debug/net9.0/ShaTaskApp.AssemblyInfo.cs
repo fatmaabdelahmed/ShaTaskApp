@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ShaTaskApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+49af8c0a6fd9bda8427a75ba5ba443aed468316e")]
 [assembly: System.Reflection.AssemblyProductAttribute("ShaTaskApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ShaTaskApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
