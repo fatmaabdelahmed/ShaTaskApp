@@ -39,48 +39,6 @@ A simple and clean Invoice Management System built with **ASP.NET Core MVC** and
 
 ---
 
-## 🖥️ Screenshots
-
-| Invoice Form | Cashier List |
-|--------------|---------------|
-| ![Invoice Form](screenshots/invoice-form.png) | ![Cashier List](screenshots/cashier-list.png) |
-
----
-
-## 📁 Project Structure
-
-ShaTaskApp/
-│
-├── Controllers/
-│ └── InvoiceController.cs
-│ └── CashierController.cs
-│
-├── Models/
-│ └── InvoiceHeader.cs
-│ └── InvoiceDetails.cs
-│ └── Cashier.cs
-│
-├── ViewModels/
-│ └── InvoiceCreateEditViewModel.cs
-│
-├── Views/
-│ └── Invoice/
-│ └── Create.cshtml
-│ └── _InvoiceForm.cshtml
-│
-├── wwwroot/
-│ └── css/
-│ └── invoice-form.css
-│ └── js/
-│ └── invoice-form.js
-│
-└── Data/
-└── AppDbContext.cs
-
-
-
----
-
 ## 🚀 How to Run
 
 1. Clone the repo:
@@ -97,9 +55,7 @@ Update-Database
 Press F5 or run the project
 
 ## 🧪 Future Enhancements
-Authentication & Roles (Admin / User)
 
-Invoice PDF export
 
 Product inventory tracking
 
