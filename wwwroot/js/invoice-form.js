@@ -22,7 +22,9 @@
     });
 
     document.getElementById('branchSelect').addEventListener('change', function () {
-        loadCashiersByBranch(this.value);
+        const branchId = this.value;
+        console.log('Branch changed to:', branchId); 
+        loadCashiersByBranch(branchId);
     });
 
     document.getElementById('invoiceForm').addEventListener('submit', function (e) {
@@ -32,6 +34,8 @@
     });
 
     function initializeForm() {
+        console.log('Initializing form...'); 
+
         document.querySelectorAll('.item-row').forEach(row => {
             updateRowTotal(row);
         });
@@ -42,7 +46,8 @@
         }
 
         const branchSelect = document.getElementById('branchSelect');
-        if (branchSelect.value) {
+        if (branchSelect && branchSelect.value) {
+            console.log('Loading cashiers for existing branch:', branchSelect.value);
             loadCashiersByBranch(branchSelect.value);
         }
     }
@@ -113,6 +118,8 @@
         const priceInput = row.querySelector('.item-price');
         const totalInput = row.querySelector('.item-total');
 
+        if (!countInput || !priceInput || !totalInput) return;
+
         const count = parseFloat(countInput.value) || 0;
         const price = parseFloat(priceInput.value) || 0;
         const total = count * price;
@@ -130,16 +137,34 @@
 
         document.querySelectorAll('.item-row').forEach(row => {
             const totalInput = row.querySelector('.item-total');
-            const total = parseFloat(totalInput.value.replace(/,/g, '')) || 0;
-            grandTotal += total;
+            if (totalInput && totalInput.value) {
+                const total = parseFloat(totalInput.value.replace(/[^\d.-]/g, '')) || 0;
+                grandTotal += total;
+            }
         });
 
-        document.getElementById('grandTotal').textContent = formatNumber(grandTotal);
-        document.getElementById('totalDisplay').textContent = formatNumber(grandTotal);
+        const grandTotalElement = document.getElementById('grandTotal');
+        const totalDisplayElement = document.getElementById('totalDisplay');
+
+        if (grandTotalElement) {
+            grandTotalElement.textContent = formatNumber(grandTotal);
+        }
+        if (totalDisplayElement) {
+            totalDisplayElement.textContent = formatNumber(grandTotal);
+        }
+
+        console.log('Grand total updated:', grandTotal); 
     }
 
     function loadCashiersByBranch(branchId) {
         const cashierSelect = document.getElementById('cashierSelect');
+
+        if (!cashierSelect) {
+            console.error('Cashier select element not found');
+            return;
+        }
+
+        const currentCashierId = cashierSelect.value;
 
         cashierSelect.innerHTML = '<option value="">جاري التحميل...</option>';
         cashierSelect.disabled = true;
@@ -150,22 +175,39 @@
             return;
         }
 
+        console.log('Fetching cashiers for branch:', branchId); 
+
         fetch(`/Invoice/GetCashiersByBranch?branchId=${branchId}`)
             .then(response => {
+                console.log('Response status:', response.status); 
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 return response.json();
             })
             .then(cashiers => {
+                console.log('Received cashiers:', cashiers); 
+
                 cashierSelect.innerHTML = '<option value="">اختر الكاشير</option>';
 
-                cashiers.forEach(cashier => {
+                if (cashiers && cashiers.length > 0) {
+                    cashiers.forEach(cashier => {
+                        const option = document.createElement('option');
+                        option.value = cashier.Id || cashier.ID || cashier.id;
+                        option.textContent = cashier.Name || cashier.name || cashier.CashierName;
+
+                        if (currentCashierId && (option.value == currentCashierId)) {
+                            option.selected = true;
+                        }
+
+                        cashierSelect.appendChild(option);
+                    });
+                } else {
                     const option = document.createElement('option');
-                    option.value = cashier.ID;
-                    option.textContent = cashier.Name;
+                    option.value = "";
+                    option.textContent = "لا يوجد كاشير متاح";
                     cashierSelect.appendChild(option);
-                });
+                }
 
                 cashierSelect.disabled = false;
             })
@@ -173,7 +215,7 @@
                 console.error('Error fetching cashiers:', error);
                 cashierSelect.innerHTML = '<option value="">خطأ في تحميل البيانات</option>';
                 cashierSelect.disabled = false;
-                showAlert('حدث خطأ في تحميل بيانات الكاشيرين', 'error');
+                showAlert('حدث خطأ في تحميل بيانات الكاشيرين: ' + error.message, 'error');
             });
     }
 
@@ -182,18 +224,18 @@
         const errors = [];
 
         const customerName = document.querySelector('[name="CustomerName"]');
-        if (!customerName.value.trim()) {
+        if (!customerName || !customerName.value.trim()) {
             errors.push('اسم العميل مطلوب');
-            customerName.classList.add('is-invalid');
+            if (customerName) customerName.classList.add('is-invalid');
             isValid = false;
         } else {
             customerName.classList.remove('is-invalid');
         }
 
         const branchId = document.querySelector('[name="BranchID"]');
-        if (!branchId.value) {
+        if (!branchId || !branchId.value) {
             errors.push('الفرع مطلوب');
-            branchId.classList.add('is-invalid');
+            if (branchId) branchId.classList.add('is-invalid');
             isValid = false;
         } else {
             branchId.classList.remove('is-invalid');
@@ -209,22 +251,22 @@
 
             let rowValid = true;
 
-            if (!itemName.value.trim()) {
-                itemName.classList.add('is-invalid');
+            if (!itemName || !itemName.value.trim()) {
+                if (itemName) itemName.classList.add('is-invalid');
                 rowValid = false;
             } else {
                 itemName.classList.remove('is-invalid');
             }
 
-            if (!itemCount.value || parseFloat(itemCount.value) <= 0) {
-                itemCount.classList.add('is-invalid');
+            if (!itemCount || !itemCount.value || parseFloat(itemCount.value) <= 0) {
+                if (itemCount) itemCount.classList.add('is-invalid');
                 rowValid = false;
             } else {
                 itemCount.classList.remove('is-invalid');
             }
 
-            if (!itemPrice.value || parseFloat(itemPrice.value) <= 0) {
-                itemPrice.classList.add('is-invalid');
+            if (!itemPrice || !itemPrice.value || parseFloat(itemPrice.value) <= 0) {
+                if (itemPrice) itemPrice.classList.add('is-invalid');
                 rowValid = false;
             } else {
                 itemPrice.classList.remove('is-invalid');
@@ -248,6 +290,7 @@
     }
 
     function formatNumber(number) {
+        if (isNaN(number)) return '0.00';
         return new Intl.NumberFormat('ar-EG', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
@@ -263,13 +306,15 @@
         `;
 
         const form = document.getElementById('invoiceForm');
-        form.insertBefore(alert, form.firstChild);
+        if (form) {
+            form.insertBefore(alert, form.firstChild);
 
-        setTimeout(() => {
-            if (alert.parentNode) {
-                alert.remove();
-            }
-        }, 5000);
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.remove();
+                }
+            }, 5000);
+        }
     }
 
     const style = document.createElement('style');

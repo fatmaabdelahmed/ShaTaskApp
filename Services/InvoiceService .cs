@@ -18,6 +18,7 @@ namespace ShaTaskApp.Services
         public async Task<List<InvoiceHeader>> GetInvoicesAsync()
         {
             return await _context.InvoiceHeaders
+                .Include(i => i.InvoiceDetails)
                 .Include(h => h.Cashier)
                 .Include(h => h.Cashier.Branch)
                 .ToListAsync();
