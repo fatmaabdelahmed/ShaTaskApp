@@ -132,10 +132,13 @@
                                                         <i class="fa-solid fa-pen-to-square" style="color: #FFD43B;"></i>
                                                     </a>
                                                     
-                                                    <a asp-action="Delete" asp-route-id="@item.ID" 
-                                                       class="btn btn-danger btn-sm" title="حذف">
+                                                    <button type="button" class="btn btn-danger btn-sm delete-btn" 
+                                                            data-id="@item.ID" title="حذف">
                                                         <i class="fa-solid fa-trash" style="color: #e00000;"></i>
-                                                    </a>
+                                                    </button>
+
+
+
                                                 </div>
                                             </td>
                                         </tr>
@@ -213,3 +216,37 @@
         font-size: 0.8em;
     }
 </style>
+<script>
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const invoiceId = this.getAttribute('data-id');
+
+            Swal.fire({
+                title: 'هل أنت متأكد؟',
+                text: "لا يمكنك التراجع بعد الحذف!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم، احذفها',
+                cancelButtonText: 'إلغاء',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `/Invoice/DeleteConfirmed/${invoiceId}`;
+
+                }
+            });
+        });
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('deleted') === 'true') {
+        Swal.fire({
+            icon: 'success',
+            title: 'تم الحذف',
+            text: 'تم حذف الفاتورة بنجاح',
+            timer: 2000,
+            showConfirmButton: false
+        });
+    }
+</script>

@@ -48,8 +48,11 @@
         const branchSelect = document.getElementById('branchSelect');
         if (branchSelect && branchSelect.value) {
             console.log('Loading cashiers for existing branch:', branchSelect.value);
-            loadCashiersByBranch(branchSelect.value);
+
+            const currentCashierId = document.getElementById('cashierSelect')?.getAttribute('data-current-id');
+            loadCashiersByBranch(branchSelect.value, currentCashierId);
         }
+
     }
 
     function addNewItem() {
@@ -156,15 +159,13 @@
         console.log('Grand total updated:', grandTotal); 
     }
 
-    function loadCashiersByBranch(branchId) {
+    function loadCashiersByBranch(branchId, selectedCashierId = null) {
         const cashierSelect = document.getElementById('cashierSelect');
 
         if (!cashierSelect) {
             console.error('Cashier select element not found');
             return;
         }
-
-        const currentCashierId = cashierSelect.value;
 
         cashierSelect.innerHTML = '<option value="">جاري التحميل...</option>';
         cashierSelect.disabled = true;
@@ -175,18 +176,18 @@
             return;
         }
 
-        console.log('Fetching cashiers for branch:', branchId); 
+        console.log('Fetching cashiers for branch:', branchId);
 
         fetch(`/Invoice/GetCashiersByBranch?branchId=${branchId}`)
             .then(response => {
-                console.log('Response status:', response.status); 
+                console.log('Response status:', response.status);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 return response.json();
             })
             .then(cashiers => {
-                console.log('Received cashiers:', cashiers); 
+                console.log('Received cashiers:', cashiers);
 
                 cashierSelect.innerHTML = '<option value="">اختر الكاشير</option>';
 
@@ -196,7 +197,8 @@
                         option.value = cashier.Id || cashier.ID || cashier.id;
                         option.textContent = cashier.Name || cashier.name || cashier.CashierName;
 
-                        if (currentCashierId && (option.value == currentCashierId)) {
+                        
+                        if (selectedCashierId && (option.value == selectedCashierId)) {
                             option.selected = true;
                         }
 
@@ -218,6 +220,7 @@
                 showAlert('حدث خطأ في تحميل بيانات الكاشيرين: ' + error.message, 'error');
             });
     }
+
 
     function validateForm() {
         let isValid = true;

@@ -90,22 +90,24 @@ namespace ShaTaskApp.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Delete(long id)
-        {
-            var invoice = await _invoiceService.GetInvoiceDetailsAsync(id);
-            if (invoice == null)
-                return NotFound();
+        //public async Task<IActionResult> Delete(long id)
+        //{
+        //    var invoice = await _invoiceService.GetInvoiceDetailsAsync(id);
+        //    if (invoice == null)
+        //        return NotFound();
 
-            return View(invoice);
-        }
+        //    return View(invoice);
+        //}
 
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        
+        [HttpGet]
+
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             await _invoiceService.DeleteInvoiceAsync(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { deleted = true });
         }
+
 
         [HttpGet]
         public async Task<JsonResult> GetCashiersByBranch(int branchId)

@@ -252,11 +252,11 @@
                                 <i class="fas fa-print"></i>
                                 طباعة
                             </button>
-                            <a asp-action="Delete" asp-route-id="@Model.ID" class="btn btn-danger btn-lg"
-                               onclick="return confirm('هل أنت متأكد من حذف هذه الفاتورة؟')">
+                            <button type="button" class="btn btn-danger btn-lg" onclick="confirmDelete(@Model.ID)">
                                 <i class="fas fa-trash"></i>
                                 حذف الفاتورة
-                            </a>
+                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -391,7 +391,27 @@
                 });
             }
         });
+
     </script>
+    <script>
+        function confirmDelete(invoiceId) {
+            Swal.fire({
+                title: 'هل أنت متأكد؟',
+                text: 'لن يمكنك التراجع عن هذا الإجراء!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم، احذفها',
+                cancelButtonText: 'إلغاء',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `/Invoice/DeleteConfirmed/${invoiceId}`;
+                }
+            });
+        }
+    </script>
+
 
     <style>
         @@keyframes fadeIn {

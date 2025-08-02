@@ -39,7 +39,8 @@ namespace ShaTaskApp.Services
             {
                 CashierID = vm.CashierID,
                 Invoicedate = vm.Invoicedate,
-                CustomerName = vm.CustomerName 
+                CustomerName = vm.CustomerName,
+                BranchID = vm.BranchID,
             };
 
             _context.InvoiceHeaders.Add(header);
