@@ -1,6 +1,7 @@
 wwwroot\css\invoice-form.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
+wwwroot\js\invoice-form.js
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
@@ -62,10 +63,10 @@ wwwroot\lib\jquery\dist\jquery.slim.js
 wwwroot\lib\jquery\dist\jquery.slim.min.js
 wwwroot\lib\jquery\dist\jquery.slim.min.map
 wwwroot\lib\jquery\LICENSE.txt
-wwwroot\js\invoice-form.js
 D:\Elshorouk\App\ShaTaskApp\wwwroot\css\invoice-form.css
 D:\Elshorouk\App\ShaTaskApp\wwwroot\css\site.css
 D:\Elshorouk\App\ShaTaskApp\wwwroot\favicon.ico
+D:\Elshorouk\App\ShaTaskApp\wwwroot\js\invoice-form.js
 D:\Elshorouk\App\ShaTaskApp\wwwroot\js\site.js
 D:\Elshorouk\App\ShaTaskApp\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 D:\Elshorouk\App\ShaTaskApp\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
@@ -126,4 +127,3 @@ D:\Elshorouk\App\ShaTaskApp\wwwroot\lib\jquery\dist\jquery.slim.js
 D:\Elshorouk\App\ShaTaskApp\wwwroot\lib\jquery\dist\jquery.slim.min.js
 D:\Elshorouk\App\ShaTaskApp\wwwroot\lib\jquery\dist\jquery.slim.min.map
 D:\Elshorouk\App\ShaTaskApp\wwwroot\lib\jquery\LICENSE.txt
-D:\Elshorouk\App\ShaTaskApp\wwwroot\js\invoice-form.js

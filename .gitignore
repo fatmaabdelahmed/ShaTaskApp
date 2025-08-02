@@ -1,1 +1,24 @@
 .vs/
+bin/
+obj/
+.vs/
+../.vs/
+*.user
+*.suo
+*.csproj.user
+*.sln.docstates
+_ReSharper*/
+*.resharper.*
+node_modules/
+appsettings.Development.json
+Properties/launchSettings.json
+/publish
+/clientapp/dist
+/clientapp/build
+*.db
+*.sqlite
+*.log
+*.patch
+*.orig
+*.rej
+*. Cherry-pick
