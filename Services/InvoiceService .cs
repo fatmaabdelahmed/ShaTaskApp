@@ -108,5 +108,10 @@ namespace ShaTaskApp.Services
                 .Where(c => c.BranchID == branchId)
                 .ToListAsync();
         }
+
+        public async Task<List<Branch>> GetAllBranchesAsync()
+        {
+            return await _context.Branches.ToListAsync();
+        }
     }
 }

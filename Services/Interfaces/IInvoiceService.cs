@@ -11,5 +11,6 @@ namespace ShaTaskApp.Services.Interfaces
         Task EditInvoiceAsync(InvoiceCreateEditViewModel viewModel);
         Task DeleteInvoiceAsync(long id);
         Task<List<Cashier>> GetCashiersByBranchAsync(int branchId);
+        Task<List<Branch>> GetAllBranchesAsync();
     }
 }

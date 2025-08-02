@@ -14,14 +14,12 @@ namespace ShaTaskApp.Controllers
             _invoiceService = invoiceService;
         }
 
-        // GET: /Invoice
         public async Task<IActionResult> Index()
         {
             var invoices = await _invoiceService.GetInvoicesAsync();
             return View(invoices);
         }
 
-        // GET: /Invoice/Details/5
         public async Task<IActionResult> Details(long id)
         {
             var invoice = await _invoiceService.GetInvoiceDetailsAsync(id);
@@ -31,14 +29,13 @@ namespace ShaTaskApp.Controllers
             return View(invoice);
         }
 
-        // GET: /Invoice/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var viewModel = new InvoiceCreateEditViewModel();
+            await PopulateViewBags();
             return View(viewModel);
         }
 
-        // POST: /Invoice/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(InvoiceCreateEditViewModel viewModel)
@@ -49,20 +46,20 @@ namespace ShaTaskApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            await PopulateViewBags();
             return View(viewModel);
         }
 
-        // GET: /Invoice/Edit/5
         public async Task<IActionResult> Edit(long id)
         {
             var invoice = await _invoiceService.GetInvoiceDetailsAsync(id);
             if (invoice == null)
                 return NotFound();
 
-            // Convert to ViewModel
             var viewModel = new InvoiceCreateEditViewModel
             {
                 ID = invoice.ID,
+                CustomerName = invoice.CustomerName,
                 CashierID = invoice.CashierID,
                 Invoicedate = invoice.Invoicedate,
                 BranchID = invoice.Cashier?.BranchID ?? 0,
@@ -75,10 +72,10 @@ namespace ShaTaskApp.Controllers
                 }).ToList() ?? new List<InvoiceDetailsViewModel>()
             };
 
+            await PopulateViewBags();
             return View(viewModel);
         }
 
-        // POST: /Invoice/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(InvoiceCreateEditViewModel viewModel)
@@ -89,10 +86,10 @@ namespace ShaTaskApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            await PopulateViewBags();
             return View(viewModel);
         }
 
-        // GET: /Invoice/Delete/5
         public async Task<IActionResult> Delete(long id)
         {
             var invoice = await _invoiceService.GetInvoiceDetailsAsync(id);
@@ -102,7 +99,6 @@ namespace ShaTaskApp.Controllers
             return View(invoice);
         }
 
-        // POST: /Invoice/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
@@ -111,12 +107,21 @@ namespace ShaTaskApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // AJAX method to get cashiers by branch
         [HttpGet]
         public async Task<JsonResult> GetCashiersByBranch(int branchId)
         {
             var cashiers = await _invoiceService.GetCashiersByBranchAsync(branchId);
-            return Json(cashiers.Select(c => new { c.ID, c.CashierName }));
+            return Json(cashiers.Select(c => new { c.ID, Name = c.CashierName }));
+        }
+
+        private async Task PopulateViewBags()
+        {
+            ViewBag.Branches = await _invoiceService.GetAllBranchesAsync();
+        }
+
+        private async Task<List<Branch>> GetBranchesAsync()
+        {
+            return await _invoiceService.GetAllBranchesAsync();
         }
     }
 }

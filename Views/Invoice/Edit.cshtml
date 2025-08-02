@@ -1,0 +1,13 @@
+﻿@model ShaTaskApp.ViewModels.InvoiceCreateEditViewModel
+
+@{
+    ViewData["Title"] = "تعديل الفاتورة #" + Model.ID;
+}
+
+@await Html.PartialAsync("_InvoiceForm", Model)
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,413 @@
+﻿@model ShaTaskApp.Models.InvoiceHeader
+
+@{
+    ViewData["Title"] = "تفاصيل الفاتورة";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-file-invoice"></i>
+                        تفاصيل الفاتورة #@Model.ID
+                    </h3>
+                    <div class="header-actions">
+                        <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i>
+                            تعديل
+                        </a>
+                        <a asp-action="Index" class="btn btn-light btn-sm">
+                            <i class="fas fa-arrow-left"></i>
+                            رجوع للقائمة
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-section">
+                                <h5 class="text-primary mb-3">
+                                    <i class="fas fa-info-circle"></i>
+                                    معلومات الفاتورة
+                                </h5>
+                                <div class="info-item mb-2">
+                                    <strong>
+                                        <i class="fas fa-hashtag text-muted"></i>
+                                        رقم الفاتورة:
+                                    </strong>
+                                    <span class="text-primary fs-5">#@Model.ID</span>
+                                </div>
+                                <div class="info-item mb-2">
+                                    <strong>
+                                        <i class="fas fa-user text-muted"></i>
+                                        اسم العميل:
+                                    </strong>
+                                    <span>@Model.CustomerName</span>
+                                </div>
+                                <div class="info-item mb-2">
+                                    <strong>
+                                        <i class="fas fa-calendar text-muted"></i>
+                                        تاريخ الفاتورة:
+                                    </strong>
+                                    <span>@Model.Invoicedate.ToString("dd/MM/yyyy - dddd", new System.Globalization.CultureInfo("ar-EG"))</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="info-section">
+                                <h5 class="text-primary mb-3">
+                                    <i class="fas fa-building"></i>
+                                    معلومات الفرع والكاشير
+                                </h5>
+                                <div class="info-item mb-2">
+                                    <strong>
+                                        <i class="fas fa-store text-muted"></i>
+                                        الفرع:
+                                    </strong>
+                                    <span>
+                                        @if (Model.Cashier?.Branch != null)
+                                        {
+                                            @Model.Cashier.Branch.BranchName
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">غير محدد</span>
+                                        }
+                                    </span>
+                                </div>
+                                <div class="info-item mb-2">
+                                    <strong>
+                                        <i class="fas fa-user-tie text-muted"></i>
+                                        الكاشير:
+                                    </strong>
+                                    <span>
+                                        @if (Model.Cashier != null)
+                                        {
+                                            @Model.Cashier.CashierName
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">غير محدد</span>
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list"></i>
+                        أصناف الفاتورة
+                        <span class="badge bg-secondary ms-2">@Model.InvoiceDetails.Count() صنف</span>
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    @if (Model.InvoiceDetails != null && Model.InvoiceDetails.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>اسم الصنف</th>
+                                        <th class="text-center">الكمية</th>
+                                        <th class="text-center">السعر</th>
+                                        <th class="text-center">الإجمالي</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int itemNumber = 1;
+                                    }
+                                    @foreach (var item in Model.InvoiceDetails)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <span class="badge bg-primary">@itemNumber</span>
+                                            </td>
+                                            <td>
+                                                <div class="item-info">
+                                                    <i class="fas fa-box text-muted me-2"></i>
+                                                    <strong>@item.ItemName</strong>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="badge bg-info">
+                                                    @item.ItemCount.ToString("N2")
+                                                </span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="text-success fw-bold">
+                                                    @item.ItemPrice.ToString("#,##0.00") ج.م
+                                                </span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="text-primary fw-bold fs-6">
+                                                    @item.TotalPrice.ToString("#,##0.00") ج.م
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        itemNumber++;
+                                    }
+                                </tbody>
+                                <tfoot class="table-light">
+                                    <tr>
+                                        <td colspan="4" class="text-end fw-bold fs-5">
+                                            <i class="fas fa-calculator text-success"></i>
+                                            الإجمالي العام:
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge bg-success fs-6 p-2">
+                                                @{
+                                                    var totalAmount = Model.InvoiceDetails.Sum(d => d.TotalPrice);
+                                                }
+                                                @totalAmount.ToString("#,##0.00") ج.م
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">لا توجد أصناف في هذه الفاتورة</h5>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-line"></i>
+                        ملخص الفاتورة
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-3">
+                            <div class="summary-item">
+                                <div class="summary-icon text-primary mb-2">
+                                    <i class="fas fa-list fa-2x"></i>
+                                </div>
+                                <h4 class="text-primary">@Model.InvoiceDetails.Count()</h4>
+                                <p class="text-muted mb-0">عدد الأصناف</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="summary-item">
+                                <div class="summary-icon text-info mb-2">
+                                    <i class="fas fa-cubes fa-2x"></i>
+                                </div>
+                                <h4 class="text-info">
+                                    @Model.InvoiceDetails.Sum(d => d.ItemCount).ToString("N2")
+                                </h4>
+                                <p class="text-muted mb-0">إجمالي الكمية</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <div class="summary-item border-start border-3 border-success ps-3">
+                                <div class="summary-icon text-success mb-2">
+                                    <i class="fas fa-money-bill-wave fa-2x"></i>
+                                </div>
+                                <h3 class="text-success">
+                                    @{
+                                        var grandTotal = Model.InvoiceDetails.Sum(d => d.TotalPrice);
+                                    }
+                                    @grandTotal.ToString("#,##0.00")
+                                </h3>
+                                <p class="text-muted mb-0">إجمالي المبلغ (ج.م)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-arrow-left"></i>
+                                رجوع للقائمة
+                            </a>
+                        </div>
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-warning btn-lg me-2">
+                                <i class="fas fa-edit"></i>
+                                تعديل الفاتورة
+                            </a>
+                            <button type="button" class="btn btn-info btn-lg me-2" onclick="window.print()">
+                                <i class="fas fa-print"></i>
+                                طباعة
+                            </button>
+                            <a asp-action="Delete" asp-route-id="@Model.ID" class="btn btn-danger btn-lg"
+                               onclick="return confirm('هل أنت متأكد من حذف هذه الفاتورة؟')">
+                                <i class="fas fa-trash"></i>
+                                حذف الفاتورة
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .info-section {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid #007bff;
+        }
+
+        .info-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+            .info-item:last-child {
+                border-bottom: none;
+            }
+
+        .summary-item {
+            padding: 1rem;
+            transition: transform 0.2s ease;
+        }
+
+            .summary-item:hover {
+                transform: translateY(-2px);
+            }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .table th {
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .header-actions .btn {
+            margin-left: 0.5rem;
+        }
+
+        .badge {
+            font-size: 0.9em;
+        }
+
+        .card {
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            border: 1px solid rgba(0, 0, 0, 0.125);
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        @@media print {
+            .header-actions,
+            .btn,
+            .card-header {
+                display: none !important;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid #000;
+            }
+
+            body {
+                font-size: 12px;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .header-actions {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+                .header-actions .btn {
+                    margin-left: 0;
+                    font-size: 0.875rem;
+                }
+
+            .summary-item {
+                margin-bottom: 1rem;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid #e9ecef;
+            }
+
+            .d-flex.justify-content-between {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .btn-lg {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add smooth animations to summary cards
+            const summaryItems = document.querySelectorAll('.summary-item');
+            summaryItems.forEach((item, index) => {
+                item.style.animationDelay = `${index * 0.1}s`;
+                item.classList.add('fade-in');
+            });
+
+            // Add print-specific styling
+            const printBtn = document.querySelector('[onclick="window.print()"]');
+            if (printBtn) {
+                printBtn.addEventListener('click', function() {
+                    setTimeout(() => {
+                        window.print();
+                    }, 100);
+                });
+            }
+        });
+    </script>
+
+    <style>
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+    </style>
+}

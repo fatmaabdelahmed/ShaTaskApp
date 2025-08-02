@@ -1,0 +1,18 @@
+﻿@model ShaTaskApp.ViewModels.InvoiceCreateEditViewModel
+
+@{
+    ViewData["Title"] = "إضافة فاتورة جديدة";
+}
+
+@await Html.PartialAsync("_InvoiceForm", Model)
+
+@section Styles {
+    <link href="~/css/invoice-form.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/js/invoice-form.js"></script>
+}
