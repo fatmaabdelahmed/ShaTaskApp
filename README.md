@@ -17,6 +17,12 @@ A simple and clean Invoice Management System built with **ASP.NET Core MVC** and
 
 ## 📚 Features
 
+✅ **Authentication & Authorization**  
+- Register & Login functionality using ASP.NET Core Identity
+- Role-based access (e.g., Admin, Cashier)
+- Access Denied page for unauthorized actions
+- Logout functionality
+  
 ✅ **Invoice Management**  
 - Create new invoices dynamically  
 - Add multiple product rows with quantities and price auto-fill  
