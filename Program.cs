@@ -11,7 +11,7 @@ namespace ShaTaskApp
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args) 
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -27,12 +27,15 @@ namespace ShaTaskApp
             })
              .AddEntityFrameworkStores<ShaTaskDbContext>()
              .AddDefaultTokenProviders();
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = "/Account/AccessDenied";
+            });
 
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IInvoiceService, InvoiceService>();
             builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
-
 
             var app = builder.Build();
 
@@ -54,7 +57,21 @@ namespace ShaTaskApp
                 name: "default",
                 pattern: "{controller=Invoice}/{action=Index}/{id?}");
 
-            app.Run();
+            using (var scope = app.Services.CreateScope())
+            {
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                string[] roles = { "Admin", "User" };
+                foreach (var role in roles)
+                {
+                    if (!await roleManager.RoleExistsAsync(role))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole(role));
+                    }
+                }
+            }
+
+            await app.RunAsync();
         }
     }
 }

@@ -2,7 +2,7 @@
 using ShaTaskApp.Models;
 using ShaTaskApp.Models.Context;
 using ShaTaskApp.Services.Interfaces;
-using ShaTaskApp.ViewModels;
+using ShaTaskApp.ViewModels.Invoice;
 
 namespace ShaTaskApp.Services
 {

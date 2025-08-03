@@ -159,6 +159,7 @@ D:\Elshorouk\App\ShaTaskApp\obj\Debug\net9.0\scopedcss\projectbundle\ShaTaskApp.
 D:\Elshorouk\App\ShaTaskApp\obj\Debug\net9.0\compressed\witbfx1ans-gn1lc0o0l9.gz
 D:\Elshorouk\App\ShaTaskApp\obj\Debug\net9.0\compressed\f8m6ql7mpn-b9sayid5wm.gz
 D:\Elshorouk\App\ShaTaskApp\obj\Debug\net9.0\compressed\ddcdfoozpt-61n19gt1b8.gz
+D:\Elshorouk\App\ShaTaskApp\obj\Debug\net9.0\compressed\5be9fgq4rz-a5p6j7z3p0.gz
 D:\Elshorouk\App\ShaTaskApp\obj\Debug\net9.0\compressed\lbhzevlh7n-xtxxf3hu2r.gz
 D:\Elshorouk\App\ShaTaskApp\obj\Debug\net9.0\compressed\eizzmsutmw-bqjiyaj88i.gz
 D:\Elshorouk\App\ShaTaskApp\obj\Debug\net9.0\compressed\95fabc4fhm-c2jlpeoesf.gz
@@ -232,4 +233,3 @@ D:\Elshorouk\App\ShaTaskApp\obj\Debug\net9.0\refint\ShaTaskApp.dll
 D:\Elshorouk\App\ShaTaskApp\obj\Debug\net9.0\ShaTaskApp.pdb
 D:\Elshorouk\App\ShaTaskApp\obj\Debug\net9.0\ShaTaskApp.genruntimeconfig.cache
 D:\Elshorouk\App\ShaTaskApp\obj\Debug\net9.0\ref\ShaTaskApp.dll
-D:\Elshorouk\App\ShaTaskApp\obj\Debug\net9.0\compressed\5be9fgq4rz-a5p6j7z3p0.gz

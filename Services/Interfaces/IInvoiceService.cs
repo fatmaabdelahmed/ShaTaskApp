@@ -1,5 +1,5 @@
 ﻿using ShaTaskApp.Models;
-using ShaTaskApp.ViewModels;
+using ShaTaskApp.ViewModels.Invoice;
 
 namespace ShaTaskApp.Services.Interfaces
 {

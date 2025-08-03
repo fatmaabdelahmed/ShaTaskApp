@@ -124,16 +124,20 @@
                                             <td>
                                                 <div class="btn-group" role="group">
                                                     <a asp-action="Details" asp-route-id="@item.ID" 
-                                                       class="btn btn-info btn-sm" title="عرض التفاصيل">
+                                                       class="btn me-1" title="عرض التفاصيل">
                                                         <i class="fa-solid fa-eye" style="color: #74C0FC;"></i>
                                                     </a>
                                                     <a asp-action="Edit" asp-route-id="@item.ID" 
-                                                       class="btn btn-warning btn-sm" title="تعديل">
+                                                       class="btn me-1" title="تعديل">
                                                         <i class="fa-solid fa-pen-to-square" style="color: #FFD43B;"></i>
                                                     </a>
                                                     
-                                                    <button type="button" class="btn btn-danger btn-sm delete-btn" 
-                                                            data-id="@item.ID" title="حذف">
+                                                    <button type="button" 
+                                                        class="btn delete-btn"
+                                                        style="border:none; background:none"
+
+                                                        data-id="@item.ID" title="حذف">
+                                                      
                                                         <i class="fa-solid fa-trash" style="color: #e00000;"></i>
                                                     </button>
 

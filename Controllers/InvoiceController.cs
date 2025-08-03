@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShaTaskApp.Models;
 using ShaTaskApp.Services.Interfaces;
-using ShaTaskApp.ViewModels;
+using ShaTaskApp.ViewModels.Invoice;
 
 namespace ShaTaskApp.Controllers
 {
+    [Authorize(Roles = "Admin,User")]
+
     public class InvoiceController : Controller
     {
         private readonly IInvoiceService _invoiceService;

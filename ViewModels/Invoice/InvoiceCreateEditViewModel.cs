@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ShaTaskApp.ViewModels
+namespace ShaTaskApp.ViewModels.Invoice
 {
     public class InvoiceCreateEditViewModel
     {

@@ -8,7 +8,8 @@ using ShaTaskApp.Models.Context;
 
 namespace ShaTask.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
+
     public class CashierController : Controller
     {
         private readonly ShaTaskDbContext _context;
