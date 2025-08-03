@@ -374,14 +374,12 @@
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Add smooth animations to summary cards
             const summaryItems = document.querySelectorAll('.summary-item');
             summaryItems.forEach((item, index) => {
                 item.style.animationDelay = `${index * 0.1}s`;
                 item.classList.add('fade-in');
             });
 
-            // Add print-specific styling
             const printBtn = document.querySelector('[onclick="window.print()"]');
             if (printBtn) {
                 printBtn.addEventListener('click', function() {
